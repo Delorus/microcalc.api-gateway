@@ -1,25 +1,15 @@
 package ru.sherb.microcalc.apiservice.calc.v1;
 
+import lombok.Data;
+import lombok.NoArgsConstructor;
+
 /**
  * @author maksim
  * @since 22.06.19
  */
+@Data
+@NoArgsConstructor
 public final class CalcRequest {
 
     private String expr;
-
-    public CalcRequest() {
-    }
-
-    public CalcRequest(String expr) {
-        this.expr = expr;
-    }
-
-    public String getExpr() {
-        return expr;
-    }
-
-    public void setExpr(String expr) {
-        this.expr = expr;
-    }
 }
