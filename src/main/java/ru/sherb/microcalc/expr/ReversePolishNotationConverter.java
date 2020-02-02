@@ -1,4 +1,4 @@
-package ru.sherb.microcalc.apiservice.calc.v1;
+package ru.sherb.microcalc.expr;
 
 import java.util.ArrayDeque;
 import java.util.Objects;

@@ -6,6 +6,7 @@ import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 import reactor.core.publisher.Mono;
+import ru.sherb.microcalc.expr.ReversePolishNotationConverter;
 
 /**
  * @author maksim
@@ -16,6 +17,12 @@ import reactor.core.publisher.Mono;
         consumes = MediaType.APPLICATION_JSON_VALUE,
         produces = MediaType.APPLICATION_JSON_VALUE)
 public final class CalcRestEndpoint {
+
+    private final ReversePolishNotationConverter rpnConverter;
+
+    public CalcRestEndpoint() {
+        this.rpnConverter = new ReversePolishNotationConverter();
+    }
 
     @PostMapping
     public Mono<CalcResponse> calculate(@RequestBody CalcRequest req) {
