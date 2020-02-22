@@ -1,36 +1,33 @@
 plugins {
-    id 'org.springframework.boot' version '2.1.5.RELEASE'
     id 'java'
 }
 
-apply plugin: 'io.spring.dependency-management'
-
 group = 'ru.sherb.microcalc'
 version = '0.0.1'
-sourceCompatibility = '11'
 
-configurations {
-    developmentOnly
-    runtimeClasspath {
-        extendsFrom developmentOnly
+allprojects {
+    plugins.withType(JavaPlugin) {
+        targetCompatibility = 11
+        sourceCompatibility = 11
+
+        tasks.withType(JavaCompile) {
+            options.encoding = 'UTF-8'
+        }
+
+        repositories {
+            mavenLocal()
+            mavenCentral()
+            jcenter()
+        }
     }
 }
 
-repositories {
-    mavenCentral()
-}
+subprojects {
+    plugins.withType(JavaPlugin) {
+        group "${project.rootProject.group}.${project.name}"
 
-test {
-    useJUnitPlatform()
-}
-
-dependencies {
-    implementation 'org.springframework.boot:spring-boot-starter-webflux'
-    developmentOnly 'org.springframework.boot:spring-boot-devtools'
-    testImplementation 'org.springframework.boot:spring-boot-starter-test'
-    testImplementation 'io.projectreactor:reactor-test'
-    testImplementation "org.junit.jupiter:junit-jupiter:5.4.0"
-
-    compileOnly 'org.projectlombok:lombok:1.18.10'
-    annotationProcessor 'org.projectlombok:lombok:1.18.10'
+        test {
+            useJUnitPlatform()
+        }
+    }
 }
