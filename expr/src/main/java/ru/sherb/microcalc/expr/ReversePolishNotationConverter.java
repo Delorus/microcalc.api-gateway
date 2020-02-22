@@ -7,14 +7,16 @@ import java.util.Objects;
  * @author maksim
  * @since 22.06.19
  */
-public final class ReversePolishNotationConverter {
+final class ReversePolishNotationConverter {
 
-    public static class ExpressionConvertException extends RuntimeException {
+    private final String expression;
+
+    public ReversePolishNotationConverter(String expression) {
+        Objects.requireNonNull(expression);
+        this.expression = expression;
     }
 
-    public String toRPN(String expression) throws ExpressionConvertException {
-        Objects.requireNonNull(expression);
-
+    public String toRPN() throws ExpressionConvertException {
         StringBuilder result = new StringBuilder();
         ArrayDeque<Character> operators = new ArrayDeque<>(); //todo CharStack, less boxing/unboxing
 

@@ -1,6 +1,7 @@
 package ru.sherb.microcalc.apiservice.calc.v1;
 
 import com.fasterxml.jackson.annotation.JsonInclude;
+import lombok.AllArgsConstructor;
 import lombok.Data;
 import lombok.NoArgsConstructor;
 
@@ -12,6 +13,7 @@ import static com.fasterxml.jackson.annotation.JsonInclude.Include;
  */
 @Data
 @NoArgsConstructor
+@AllArgsConstructor
 @JsonInclude(Include.NON_NULL)
 public final class CalcResponse {
 

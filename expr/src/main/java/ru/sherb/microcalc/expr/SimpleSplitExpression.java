@@ -25,7 +25,7 @@ import static ru.sherb.microcalc.expr.ExprPart.ID_PREFIX;
  * @author maksim
  * @since 23.06.19
  */
-public final class SimpleSplitExpression {
+final class SimpleSplitExpression implements SplitExpression {
 
     /**
      * @param rpnExpr expression in reverse polish notation
@@ -93,6 +93,7 @@ public final class SimpleSplitExpression {
         this.parts = parts;
     }
 
+    @Override
     public Optional<ExprPart> resolveAndNext(ExprPart part, Number answer) {
         Objects.requireNonNull(part);
         Objects.requireNonNull(answer);
@@ -113,6 +114,7 @@ public final class SimpleSplitExpression {
         return Optional.empty();
     }
 
+    @Override
     public ExprPart[] roots() {
         var result = new ExprPart[this.roots.length];
         for (int i = 0; i < this.roots.length; i++) {
@@ -121,6 +123,7 @@ public final class SimpleSplitExpression {
         return result;
     }
 
+    @Override
     public Number result() {
         if (!isResolved()) {
             throw new RuntimeException("expression not yet resolved");
@@ -129,6 +132,7 @@ public final class SimpleSplitExpression {
         return parts[parts.length-1].answer();
     }
 
+    @Override
     public boolean isResolved() {
         for (ExprPart part : parts) {
             if (!part.isMaterialized()) {
