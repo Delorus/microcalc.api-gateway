@@ -3,9 +3,7 @@ plugins {
     id 'org.javamodularity.moduleplugin' version '1.6.0'
 }
 
-group = 'ru.sherb.microcalc.expr'
 version = '0.0.1'
-sourceCompatibility = '11'
 
 repositories {
     mavenCentral()
@@ -13,11 +11,4 @@ repositories {
 
 test {
     useJUnitPlatform()
-}
-
-dependencies {
-    testImplementation "org.junit.jupiter:junit-jupiter:5.4.0"
-
-    compileOnly 'org.projectlombok:lombok:1.18.10'
-    annotationProcessor 'org.projectlombok:lombok:1.18.10'
 }

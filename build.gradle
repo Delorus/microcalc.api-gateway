@@ -29,5 +29,12 @@ subprojects {
         test {
             useJUnitPlatform()
         }
+
+        dependencies {
+            testImplementation "org.junit.jupiter:junit-jupiter:5.4.0"
+
+            compileOnly 'org.projectlombok:lombok:1.18.10'
+            annotationProcessor 'org.projectlombok:lombok:1.18.10'
+        }
     }
 }
