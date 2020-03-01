@@ -94,6 +94,47 @@ public class DistributeCalcServiceTest {
         assertEquals(results[2], result);
     }
 
+    @Test
+    @DisplayName("When set invalid expression then throw exception")
+    public void testCalculateThrowErrorIfInvalidExpression() {
+        // Setup
+        String withoutOperator = "1 2";
+        String withoutSecondArg = "1 +";
+        String withoutFirstArg = "+ 2";
+        String invalidExpr = "hello";
+
+        // Given
+        assertThrows(IllegalArgumentException.class, () -> {
+            distributeCalcService.calculate(withoutOperator);
+        });
+
+        assertThrows(RuntimeException.class, () -> {
+            distributeCalcService.calculate(withoutSecondArg);
+        });
+
+        assertThrows(RuntimeException.class, () -> {
+            distributeCalcService.calculate(withoutFirstArg);
+        });
+
+        assertThrows(IllegalArgumentException.class, () -> {
+            distributeCalcService.calculate(invalidExpr);
+        });
+    }
+
+    @Test
+    @DisplayName("When ExpressionSender not working correctly then throw exception")
+    public void testThrowErrorIfSomethingWrongWithExpressionSender() {
+        // Setup
+        String expr = "1 + 2 + 3";
+
+        // Given
+        //todo change type of exception
+        assertThrows(IllegalArgumentException.class, () -> {
+            distributeCalcService.calculate(expr);
+        });
+
+    }
+
     private ExprPart[] getExpectedParts(String raw, Number... answers) {
         SplitExpression expr = ExpressionSplitter.split(raw);
         ExprPart[] roots = expr.roots();
