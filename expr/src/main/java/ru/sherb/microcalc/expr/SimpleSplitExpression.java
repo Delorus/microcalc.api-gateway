@@ -106,7 +106,7 @@ final class SimpleSplitExpression implements SplitExpression {
         for (int i = part.id() + 1; i < parts.length; i++) {
             var next = parts[i];
             next.resolve(part.id(), part.answer());
-            if (next.isMaterialized() && !next.hasAnswer()) {
+            if (next.isMaterialized() && !next.hasAnswer() && !next.isProcessing()) {
                 return Optional.of(next);
             }
         }
@@ -119,6 +119,7 @@ final class SimpleSplitExpression implements SplitExpression {
         var result = new ExprPart[this.roots.length];
         for (int i = 0; i < this.roots.length; i++) {
             result[i] = parts[this.roots[i]];
+            result[i].markStartProcessing();
         }
         return result;
     }
@@ -135,7 +136,7 @@ final class SimpleSplitExpression implements SplitExpression {
     @Override
     public boolean isResolved() {
         for (ExprPart part : parts) {
-            if (!part.isMaterialized()) {
+            if (!part.hasAnswer()) {
                 return false;
             }
         }

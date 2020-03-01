@@ -6,6 +6,7 @@ import java.util.Arrays;
 
 import static org.junit.jupiter.api.Assertions.assertArrayEquals;
 import static org.junit.jupiter.api.Assertions.assertEquals;
+import static org.junit.jupiter.api.Assertions.assertFalse;
 import static org.junit.jupiter.api.Assertions.assertThrows;
 import static org.junit.jupiter.api.Assertions.assertTrue;
 
@@ -69,7 +70,31 @@ class SimpleSplitExpressionTest {
     }
 
     @Test
-    public void testResolveAndNext() {
+    public void testResolveAndNextSeq() {
+        var expr = "1 2 + 3 4 * +";
+
+        var splitExpr = SimpleSplitExpression.ofRpnExpr(expr);
+
+        var roots = splitExpr.roots();
+        assertEquals(2, roots.length);
+
+        var next = splitExpr.resolveAndNext(roots[0], 1);
+        assertTrue(next.isEmpty());
+        assertFalse(splitExpr.isResolved());
+
+        next = splitExpr.resolveAndNext(roots[1], 42);
+        assertTrue(next.isPresent());
+        assertPartsEquals(pieces("1 42 + => 2"), next.get());
+        assertFalse(splitExpr.isResolved());
+
+        next = splitExpr.resolveAndNext(next.get(), 2);
+        assertTrue(next.isEmpty());
+        assertTrue(splitExpr.isResolved());
+        assertEquals(2, splitExpr.result());
+    }
+
+    @Test
+    public void testResolveAndNextReverseSeq() {
         var expr = "1 2 + 3 + 5 3 * / 10 +";
 
         var splitExpr = SimpleSplitExpression.ofRpnExpr(expr);
@@ -79,18 +104,22 @@ class SimpleSplitExpressionTest {
 
         var next = splitExpr.resolveAndNext(roots[1], 42);
         assertTrue(next.isEmpty());
+        assertFalse(splitExpr.isResolved());
 
         next = splitExpr.resolveAndNext(roots[0], 1);
         assertTrue(next.isPresent());
         assertPartsEquals(pieces("1 3 + => 1"), next.get());
+        assertFalse(splitExpr.isResolved());
 
         next = splitExpr.resolveAndNext(next.get(), 2);
         assertTrue(next.isPresent());
         assertPartsEquals(pieces("2 42 / => 3"), next.get());
+        assertFalse(splitExpr.isResolved());
 
         next = splitExpr.resolveAndNext(next.get(), 3);
         assertTrue(next.isPresent());
         assertPartsEquals(pieces("3 10 + => 4"), next.get());
+        assertFalse(splitExpr.isResolved());
 
         next = splitExpr.resolveAndNext(next.get(), 4);
         assertTrue(next.isEmpty());

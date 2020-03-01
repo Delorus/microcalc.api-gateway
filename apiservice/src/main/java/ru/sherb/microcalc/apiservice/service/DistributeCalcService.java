@@ -5,6 +5,7 @@ import org.springframework.stereotype.Service;
 import org.springframework.util.Assert;
 import ru.sherb.microcalc.expr.ExprPart;
 import ru.sherb.microcalc.expr.ExpressionSplitter;
+import ru.sherb.microcalc.expr.SplitExpression;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -26,10 +27,18 @@ public class DistributeCalcService {
     public Number calculate(String expr) {
         Assert.hasText(expr, "expression must not be empty");
 
-        var expression = ExpressionSplitter.split(expr);
+        SplitExpression expression = ExpressionSplitter.split(expr);
 
         ExprPart[] nexts = expression.roots();
+        if (nexts.length == 0) {
+            throw new IllegalArgumentException("invalid expression: " + expr);
+        }
+
         while (!expression.isResolved()) {
+            if (nexts.length == 0) {
+                throw new IllegalArgumentException("invalid expression, cannot fully resolved: " + expr);
+            }
+
             var result = expressionSender.sendPart(nexts);
 
             List<ExprPart> parts = new ArrayList<>();

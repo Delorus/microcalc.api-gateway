@@ -13,6 +13,7 @@ public class ExprPart {
 
     private String[] args;
     private Number answer;
+    private boolean isProcessing;
 
     ExprPart(int id, String op, String... args) {
         assert op != null && !op.isBlank();
@@ -26,6 +27,7 @@ public class ExprPart {
     void answer(Number answer) {
         assert answer != null;
         this.answer = answer;
+        this.isProcessing = false;
     }
 
     Number answer() {
@@ -78,5 +80,13 @@ public class ExprPart {
 
     boolean hasAnswer() {
         return answer != null;
+    }
+
+    void markStartProcessing() {
+        isProcessing = true;
+    }
+
+    boolean isProcessing() {
+        return isProcessing;
     }
 }
