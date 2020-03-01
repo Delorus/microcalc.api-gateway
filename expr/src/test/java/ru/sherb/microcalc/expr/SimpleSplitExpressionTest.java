@@ -127,6 +127,26 @@ class SimpleSplitExpressionTest {
         assertEquals(4, splitExpr.result());
     }
 
+    @Test
+    public void testResultIfNotResolvedThrowException() {
+        var expr = SimpleSplitExpression.ofRpnExpr("1 2 +");
+
+        assertThrows(RuntimeException.class, () -> {
+            expr.result();
+        });
+    }
+
+    @Test
+    public void testResolveAndNextWithExternalExprPartThrowException() {
+        SimpleSplitExpression expr = SimpleSplitExpression.ofRpnExpr("1 2 + 3 +");
+        ExprPart externalPart = new ExprPart(0, "+", "1", "2");
+
+        ExprPart[] roots = expr.roots();
+        assertThrows(RuntimeException.class, () -> {
+            expr.resolveAndNext(externalPart, 3);
+        });
+    }
+
     private static ExprPart[] pieces(String... pieces) {
         var result = new ExprPart[pieces.length];
 

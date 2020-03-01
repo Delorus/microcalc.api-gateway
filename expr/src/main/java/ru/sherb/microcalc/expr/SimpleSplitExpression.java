@@ -51,7 +51,7 @@ final class SimpleSplitExpression implements SplitExpression {
             if (isOperator(t)) {
                 //fixme support only 2-arity operations (2 args + 1 op)
                 if (buff.size() < 2) {
-                    throw new RuntimeException("invalid expression, maybe is not in reverse polish notation?");
+                    throw new RuntimeException("invalid expression: '" + rpnExpr + "'");
                 }
                 var piece = buff.subList(buff.size() - 2, buff.size());
                 var p = new ExprPart(idCounter, t, piece.toArray(String[]::new));
