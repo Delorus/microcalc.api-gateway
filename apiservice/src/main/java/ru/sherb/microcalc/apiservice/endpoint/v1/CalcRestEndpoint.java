@@ -1,13 +1,12 @@
-package ru.sherb.microcalc.apiservice.calc.v1;
+package ru.sherb.microcalc.apiservice.endpoint.v1;
 
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.MediaType;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
-import reactor.core.publisher.Mono;
-import ru.sherb.microcalc.expr.ExprPart;
-import ru.sherb.microcalc.expr.ExpressionSplitter;
+import ru.sherb.microcalc.apiservice.service.DistributeCalcService;
 
 /**
  * @author maksim
@@ -19,10 +18,16 @@ import ru.sherb.microcalc.expr.ExpressionSplitter;
         produces = MediaType.APPLICATION_JSON_VALUE)
 public final class CalcRestEndpoint {
 
+    private final DistributeCalcService calcService;
+
+    @Autowired
+    public CalcRestEndpoint(DistributeCalcService calcService) {
+        this.calcService = calcService;
+    }
+
     @PostMapping
-    public Mono<CalcResponse> calculate(@RequestBody CalcRequest req) {
-        var splitExpression = ExpressionSplitter.split(req.getExpr());
-        ExprPart[] roots = splitExpression.roots();
-        return Mono.just(new CalcResponse(42));
+    public CalcResponse calculate(@RequestBody CalcRequest req) {
+        calcService.calculate(req.getExpr());
+        return new CalcResponse(42);
     }
 }
