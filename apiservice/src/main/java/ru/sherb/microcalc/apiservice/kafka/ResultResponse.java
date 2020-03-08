@@ -1,5 +1,6 @@
 package ru.sherb.microcalc.apiservice.kafka;
 
+import com.fasterxml.jackson.annotation.JsonProperty;
 import org.springframework.lang.NonNull;
 
 import java.util.Objects;
@@ -13,7 +14,7 @@ class ResultResponse {
     private final String id;
     private final Number result;
 
-    ResultResponse(@NonNull String id, @NonNull Number result) {
+    ResultResponse(@JsonProperty("id") @NonNull String id, @JsonProperty("result") @NonNull Number result) {
         this.id = id;
         this.result = result;
     }

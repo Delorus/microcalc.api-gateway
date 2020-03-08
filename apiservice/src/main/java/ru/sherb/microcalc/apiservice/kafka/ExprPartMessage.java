@@ -1,5 +1,7 @@
 package ru.sherb.microcalc.apiservice.kafka;
 
+import com.fasterxml.jackson.annotation.JsonAutoDetect;
+import com.fasterxml.jackson.annotation.JsonProperty;
 import org.springframework.lang.NonNull;
 
 import java.util.Objects;
@@ -9,6 +11,7 @@ import java.util.UUID;
  * @author maksim
  * @since 29.02.2020
  */
+@JsonAutoDetect
 class ExprPartMessage {
 
     private final String id;
@@ -18,7 +21,7 @@ class ExprPartMessage {
         this(UUID.randomUUID().toString(), String.join(" ", Objects.requireNonNull(values)));
     }
 
-    private ExprPartMessage(@NonNull String id, @NonNull String values) {
+    private ExprPartMessage(@JsonProperty("id") @NonNull String id, @JsonProperty("values") @NonNull String values) {
         this.id = id;
         this.values = values;
     }
