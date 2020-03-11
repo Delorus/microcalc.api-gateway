@@ -1,5 +1,7 @@
 package ru.sherb.microcalc.apiservice.endpoint.v1;
 
+import com.fasterxml.jackson.annotation.JsonProperty;
+
 import java.util.Objects;
 
 /**
@@ -10,7 +12,7 @@ public final class CalcRequest {
 
     private final String expr;
 
-    CalcRequest(String expr) {
+    CalcRequest(@JsonProperty("expr") String expr) {
         this.expr = expr;
     }
 

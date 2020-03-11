@@ -1,6 +1,5 @@
 package ru.sherb.microcalc.apiservice.kafka;
 
-import com.fasterxml.jackson.annotation.JsonAutoDetect;
 import com.fasterxml.jackson.annotation.JsonProperty;
 import org.springframework.lang.NonNull;
 
@@ -11,7 +10,6 @@ import java.util.UUID;
  * @author maksim
  * @since 29.02.2020
  */
-@JsonAutoDetect
 class ExprPartMessage {
 
     private final String id;

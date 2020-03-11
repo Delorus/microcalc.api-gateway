@@ -1,5 +1,7 @@
 package ru.sherb.microcalc.apiservice.endpoint.v1;
 
+import com.fasterxml.jackson.annotation.JsonProperty;
+
 import java.util.Objects;
 
 
@@ -11,7 +13,7 @@ public final class CalcResponse {
 
     private final Integer answer;
 
-    CalcResponse(Integer answer) {
+    CalcResponse(@JsonProperty("answer") Integer answer) {
         this.answer = answer;
     }
 

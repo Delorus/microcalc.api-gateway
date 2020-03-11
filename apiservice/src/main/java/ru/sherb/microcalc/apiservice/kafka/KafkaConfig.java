@@ -33,9 +33,9 @@ public class KafkaConfig {
 
     @Bean
     @SuppressWarnings("unchecked")
-    public ReplyingKafkaTemplate<String, ExprPartMessage, ResultResponse> replyingKafkaTemplate(
+    public ReplyingKafkaTemplate<String, String, Number> replyingKafkaTemplate(
             ProducerFactory factory,
-            ConcurrentMessageListenerContainer<String, ResultResponse> responceListener
+            ConcurrentMessageListenerContainer<String, Number> responceListener
     ) {
         return new ReplyingKafkaTemplate<>(factory, responceListener);
     }
